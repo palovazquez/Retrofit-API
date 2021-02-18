@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.practica.retrofit_api.Classes.Artist;
+import com.practica.retrofit_api.Classes.Link;
 import com.practica.retrofit_api.R;
-
 import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyViewHolder>{
@@ -37,8 +37,14 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyViewHold
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.title.setText(artistsList.get(position).getName());
         holder.duration.setText(artistsList.get(position).getId());
-        holder.category.setText(artistsList.get(position).getUrlTickets());
+        //holder.category.setText(artistsList.get(position).getUrlTickets());
         holder.release.setText(artistsList.get(position).getName());
+
+        Link[] links = artistsList.get(position).getLinks();
+        for(Link link : links){
+            holder.spotifyUrl.setText(link.getUrl()); //Esto está mal en realidad
+        }
+
 
         Glide.with(mContext).load(artistsList.get(position).getImage()).into(holder.img);
     }
@@ -49,7 +55,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyViewHold
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView title, category, duration, release;
+        TextView title, category, duration, release, spotifyUrl;
         ImageView img;
 
 
@@ -61,6 +67,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyViewHold
             img = itemView.findViewById(R.id.imageView);
             category = itemView.findViewById(R.id.textViewCategory);
             release = itemView.findViewById(R.id.textViewRelease);
+            spotifyUrl = itemView.findViewById(R.id.spotifyUrl);
         }
     }
 
